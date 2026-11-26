@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>tcp-echo</module>
+        <module>tcp-echo-json</module>
     </modules>
 
     <properties>

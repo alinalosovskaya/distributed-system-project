@@ -33,6 +33,17 @@ Celem projektu jest stworzenie prototypu rozproszonego systemu przesyłania wiad
 - Apache Maven.
 - Dostęp do internetu przy pierwszym pobieraniu zależności.
 
+## Struktura kodu
+
+Kod źródłowy znajduje się w `tcp-echo-json/src/main/java/tcpecho`.
+
+- `common` – wspólne ustawienia oraz odczytywanie i wysyłanie JSON.
+- `daemon` – serwery oraz wspólny mechanizm obsługi połączenia klienta.
+- `example` – przykładowy klient.
+
+Klasa `ClientHandler` jest używana przez oba serwery.
+Serwer sekwencyjny wykonuje obsługę klienta w głównym wątku, a serwer współbieżny uruchamia ją w osobnym wątku.
+
 ## Kompilacja
 
 Otwórz terminal w katalogu `tcp-echo-json`, w którym znajduje się plik `pom.xml`, i wykonaj:
@@ -51,13 +62,13 @@ Należy je wykonywać w katalogu `tcp-echo-json`.
 ### Serwer sekwencyjny
 
 ```bash
-java -cp "target/classes:target/dependency/*" tcpecho.SequentialServer
+java -cp "target/classes:target/dependency/*" tcpecho.daemon.SequentialServer
 ```
 
 ### Serwer współbieżny
 
 ```bash
-java -cp "target/classes:target/dependency/*" tcpecho.ConcurrentServer
+java -cp "target/classes:target/dependency/*" tcpecho.daemon.ConcurrentServer
 ```
 
 Uruchom jeden z serwerów. Oba korzystają z adresu `127.0.0.1` i portu `5000`.
@@ -68,7 +79,7 @@ Aby zakończyć działanie serwera, naciśnij `Ctrl+C`.
 W osobnym terminalu, w tym samym katalogu, wykonaj:
 
 ```bash
-java -cp "target/classes:target/dependency/*" tcpecho.Client n
+java -cp "target/classes:target/dependency/*" tcpecho.example.Client n
 ```
 Zamiast `n` należy podać dodatnią liczbę całkowitą określającą liczbę wiadomości wysyłanych przez jedno połączenie TCP.
 Bez podania parametru klient wysyła jedną wiadomość.

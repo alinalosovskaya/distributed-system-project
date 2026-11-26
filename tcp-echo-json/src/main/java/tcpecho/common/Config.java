@@ -1,4 +1,4 @@
-package tcpecho;
+package tcpecho.common;
 
 public class Config {
     public static final String HOST = "127.0.0.1";

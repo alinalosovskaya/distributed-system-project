@@ -1,8 +1,10 @@
-package tcpecho;
+package tcpecho.example;
+
+import tcpecho.common.Config;
+import tcpecho.common.JsonConnection;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
