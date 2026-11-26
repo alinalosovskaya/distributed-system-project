@@ -21,6 +21,7 @@ Celem projektu jest stworzenie prototypu rozproszonego systemu przesyłania wiad
 4. Dodano parsowanie JSON z użyciem biblioteki Jackson oraz obsługę wieloliniowych komunikatów.
 5. Dodano przesyłanie wielu wiadomości przez jedno połączenie TCP. Liczbę wiadomości określa parametr uruchomienia klienta.
 6. Dodano sprawdzanie zgodności danych otrzymanej odpowiedzi z wysłanym komunikatem.
+7. Dodano API klienta (`MsgApi`) oraz wynik wysyłania zawierający kod statusu i opis błędu.
 
 ## Skład zespołu
 1. Alina Lasouskaya
