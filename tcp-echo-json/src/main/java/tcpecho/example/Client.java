@@ -1,46 +1,50 @@
 package tcpecho.example;
 
-import tcpecho.common.Config;
-import tcpecho.common.JsonConnection;
-
-import java.io.*;
-import java.net.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tcpecho.api.MsgApi;
+import tcpecho.api.SendResult;
+import tcpecho.common.Config;
+
+import java.io.IOException;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        int count = args.length == 0 ? 1 : Integer.parseInt(args[0]);
+        int count = args.length == 0
+                ? 1
+                : Integer.parseInt(args[0]);
 
         if (count < 1) {
             throw new IllegalArgumentException(
-                "Liczba wiadomości musi być dodatnia");
+                    "Liczba wiadomości musi być dodatnia");
         }
 
         ObjectMapper mapper = new ObjectMapper();
 
-        
+        try (MsgApi api = new MsgApi(Config.HOST, Config.PORT)) {
+            for (int i = 1; i <= count; i++) {
+                JsonNode message = mapper.createObjectNode()
+                        .put("sender", "Administrator")
+                        .put("message", "Wiadomość " + i);
 
-        try (Socket socket = new Socket(Config.HOST, Config.PORT);
-            JsonConnection connection = new JsonConnection(socket)) {
-             
-                for (int i = 1; i <= count; i++) {
+                SendResult result = api.send(message);
 
-                    JsonNode message = mapper.createObjectNode()
-                    .put("sender", "Administrator")
-                    .put("message", "Wiadomość " + i);
-
-                    connection.send(message);
-                    JsonNode answer = connection.read();
-                
-                    if (!message.equals(answer)) {
-                        throw new IOException("Niepoprawna odpowiedź serwera");
-                    }
-                
-                    System.out.println(
-                            "Odpowiedź " + i + ": " + answer);
+                if (!result.isSuccess()) {
+                    throw new IOException(
+                            "Błąd wysyłania [" + result.code() + "]: "
+                                    + result.errorMessage());
                 }
-                
+
+                JsonNode answer = api.receive();
+
+                if (!message.equals(answer)) {
+                    throw new IOException(
+                            "Niepoprawna odpowiedź serwera");
+                }
+
+                System.out.println(
+                        "Odpowiedź " + i + ": " + answer);
+            }
         }
-    }    
+    }
 }
