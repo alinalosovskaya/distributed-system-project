@@ -40,6 +40,7 @@ Kod źródłowy znajduje się w `tcp-echo-json/src/main/java/tcpecho`.
 - `common` – wspólne ustawienia oraz odczytywanie i wysyłanie JSON.
 - `daemon` – serwery oraz wspólny mechanizm obsługi połączenia klienta.
 - `example` – przykładowy klient.
+- `api` – API klienta oraz wynik wysyłania wiadomości.
 
 Klasa `ClientHandler` jest używana przez oba serwery.
 Serwer sekwencyjny wykonuje obsługę klienta w głównym wątku, a serwer współbieżny uruchamia ją w osobnym wątku.
